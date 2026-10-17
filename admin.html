@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Dashboard Owner</title>
+<style>
+:root{--bg:#F6F4F0;--card:#fff;--text:#1F1B16;--muted:#7B746B;--line:#E6E1D8;--accent:#E8590C;--danger:#C92A2A}
+*{box-sizing:border-box;margin:0}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+.center{min-height:100vh;display:grid;place-items:center;padding:20px;text-align:center}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 22px;max-width:380px;width:100%}
+.panel h1{font-size:22px;margin-bottom:8px}
+.muted{color:var(--muted)}.small{font-size:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:12px;padding:11px 18px;font:600 14px system-ui,sans-serif;cursor:pointer;text-decoration:none;margin-top:16px}
+.btn.ghost{background:transparent;color:var(--text);border-color:var(--line);margin-top:0}
+.btn.danger{background:transparent;color:var(--danger);border-color:#F1C8C8;margin-top:0}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:10px}
+.btn:disabled{opacity:.6}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px;position:sticky;top:0;z-index:5}
+.row{display:flex;gap:8px;align-items:center}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+.quota{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px}
+.qrow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.bar2{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.bar2 h2{font-size:18px}
+.bar2 .btn{margin-top:0}
+.item{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
+.item.off{opacity:.6}
+.thumb{width:64px;height:64px;border-radius:10px;background:var(--line);overflow:hidden;display:grid;place-items:center;color:var(--muted);font-weight:700;flex:none}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.meta{flex:1;min-width:150px}
+.nm{font-weight:700}
+.snip{font-size:13px;margin-top:2px}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:end center;z-index:30}
+.modal form{background:var(--card);width:100%;max-width:520px;max-height:94vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 18px 24px}
+.modal h2{font-size:18px;margin-bottom:12px}
+label{display:block;font-weight:600;font-size:13px;margin:12px 0 4px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--text)}
+textarea{min-height:90px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btns{display:flex;gap:10px;margin-top:18px}
+.btns .btn{margin-top:0;flex:1}
+.vstat{font-size:13px;margin-top:6px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;max-width:90vw}
+</style>
+</head>
+<body>
+<section id="sLoad" class="center"><p class="muted">Memuat…</p></section>
+
+<section id="sLogin" class="center" hidden>
+  <div class="panel">
+    <h1>Dashboard Owner</h1>
+    <p class="muted">Masuk dengan akun Google yang sudah didaftarkan oleh admin.</p>
+    <button id="bLogin" class="btn">Masuk dengan Google</button>
+  </div>
+</section>
+
+<section id="sDenied" class="center" hidden>
+  <div class="panel">
+    <h1>Akses ditolak</h1>
+    <p id="denMsg" class="muted"></p>
+    <button id="bOut1" class="btn ghost" style="margin-top:16px">Keluar</button>
+  </div>
+</section>
+
+<main id="sApp" hidden>
+  <header class="top">
+    <div><b id="brand"></b><div id="who" class="muted small"></div></div>
+    <div class="row">
+      <a href="index.html" target="_blank" class="btn ghost sm">Lihat website</a>
+      <button id="bOut2" class="btn ghost sm">Keluar</button>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="quota">
+      <div class="qrow"><span>Penyimpanan foto</span><span id="qtxt"></span></div>
+      <div class="bar"><i id="qbar"></i></div>
+    </div>
+    <div class="bar2"><h2>Testimoni <span id="cnt" class="muted"></span></h2><button id="bAdd" class="btn sm">+ Tambah</button></div>
+    <div id="rows"></div>
+    <p id="empty" class="muted" style="text-align:center;padding:30px 0" hidden>Belum ada testimoni. Ketuk Tambah untuk mulai.</p>
+  </div>
+</main>
+
+<div id="modal" class="modal" hidden>
+  <form id="form" autocomplete="off">
+    <h2>Tambah Testimoni</h2>
+    <label for="fNama">Nama customer *</label>
+    <input id="fNama" maxlength="60" required>
+    <div class="two">
+      <div><label for="fLabel">Label (opsional)</label><input id="fLabel" maxlength="40" placeholder="Beli akun ML"></div>
+      <div><label for="fRating">Rating</label>
+        <select id="fRating"><option value="5">5 bintang</option><option value="4">4 bintang</option><option value="3">3 bintang</option><option value="2">2 bintang</option><option value="1">1 bintang</option></select></div>
+    </div>
+    <label for="fTeks">Teks testimoni</label>
+    <textarea id="fTeks" maxlength="600"></textarea>
+    <label for="fTgl">Tanggal</label>
+    <input id="fTgl" type="date">
+    <label for="fMedia">Media</label>
+    <select id="fMedia"><option value="none">Tanpa media</option><option value="foto">Foto</option><option value="video">Video (link)</option></select>
+    <div id="boxFoto" hidden>
+      <label for="fFile">Pilih foto (otomatis dikecilkan dan diubah ke WebP)</label>
+      <input id="fFile" type="file" accept="image/*">
+    </div>
+    <div id="boxVideo" hidden>
+      <label for="fVideo">Link video (YouTube, Google Drive, atau .mp4)</label>
+      <input id="fVideo" type="url" placeholder="https://youtu.be/...">
+      <button type="button" id="bTest" class="btn ghost sm" style="margin-top:8px">Tes link</button>
+      <div id="vstat" class="vstat muted"></div>
+    </div>
+    <div class="btns">
+      <button type="button" id="bCancel" class="btn ghost">Batal</button>
+      <button type="submit" id="bSave" class="btn">Simpan</button>
+    </div>
+  </form>
+</div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
