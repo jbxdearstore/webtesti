@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Dashboard Owner</title>
+<title>Panel Creator</title>
 <style>
-:root{--bg:#F6F4F0;--card:#fff;--text:#1F1B16;--muted:#7B746B;--line:#E6E1D8;--accent:#E8590C;--danger:#C92A2A}
+:root{--bg:#F1F2F6;--card:#fff;--text:#1B1E2B;--muted:#737A8C;--line:#E1E4EC;--accent:#3B5BDB;--danger:#C92A2A;--ok:#2B8A3E}
 *{box-sizing:border-box;margin:0}
 [hidden]{display:none!important}
 body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100vh}
@@ -14,50 +14,36 @@ body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-syste
 .panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 22px;max-width:380px;width:100%}
 .panel h1{font-size:22px;margin-bottom:8px}
 .muted{color:var(--muted)}.small{font-size:12px}
-.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:12px;padding:11px 18px;font:600 14px system-ui,sans-serif;cursor:pointer;text-decoration:none;margin-top:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:12px;padding:11px 18px;font:600 14px system-ui,sans-serif;cursor:pointer;margin-top:16px}
 .btn.ghost{background:transparent;color:var(--text);border-color:var(--line);margin-top:0}
 .btn.danger{background:transparent;color:var(--danger);border-color:#F1C8C8;margin-top:0}
-.btn.sm{padding:7px 12px;font-size:13px;border-radius:10px}
-.btn:disabled{opacity:.45}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:10px;margin-top:0}
+.btn:disabled{opacity:.6}
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px;position:sticky;top:0;z-index:5}
-.row{display:flex;gap:8px;align-items:center}
-.wrap{max-width:760px;margin:0 auto;padding:16px}
-.quota{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px}
-.qrow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
-.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
-.bar2{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.bar2 h2{font-size:18px}
-.bar2 .btn{margin-top:0}
-.item{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
-.item.off{opacity:.6}
-.thumb{width:64px;height:64px;border-radius:10px;background:var(--line);overflow:hidden;display:grid;place-items:center;color:var(--muted);font-weight:700;flex:none}
-.thumb img{width:100%;height:100%;object-fit:cover}
-.meta{flex:1;min-width:150px}
+.wrap{max-width:820px;margin:0 auto;padding:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
+.stat b{display:block;font-size:20px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
+.item.off{opacity:.65}
+.otop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .nm{font-weight:700}
-.snip{font-size:13px;margin-top:2px}
-.acts{display:flex;gap:6px;flex-wrap:wrap}
+.badge{font-size:12px;font-weight:700;padding:2px 10px;border-radius:99px;white-space:nowrap}
+.badge.on{background:#E3F6E8;color:var(--ok)}
+.badge.offb{background:#FBE4E4;color:var(--danger)}
+.qrow{display:flex;justify-content:space-between;font-size:12px;margin:10px 0 4px;color:var(--muted)}
+.bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:end center;z-index:30}
-.modal form{background:var(--card);width:100%;max-width:520px;max-height:94vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 18px 24px}
-.modal h2{font-size:18px;margin-bottom:4px}
-.modal h3{font-size:13px;margin:18px 0 0;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.modal .box{background:var(--card);width:100%;max-width:520px;max-height:94vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 18px 24px}
+.modal h2{font-size:18px;margin-bottom:12px}
 label{display:block;font-weight:600;font-size:13px;margin:12px 0 4px}
-input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--text)}
-input[type=color]{height:44px;padding:4px}
-textarea{min-height:90px;resize:vertical}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--text)}
+textarea{font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;min-height:150px;resize:vertical}
 .btns{display:flex;gap:10px;margin-top:18px}
 .btns .btn{margin-top:0;flex:1}
-.vstat{font-size:13px;margin-top:6px}
-.logoprev{width:64px;height:64px;border-radius:50%;object-fit:cover;margin:8px 0 4px;display:block;border:1px solid var(--line)}
-.pv{margin-top:14px;padding:16px;border-radius:14px;border:1px solid var(--line);text-align:center;transition:background .2s}
-.pvcard{border:1px solid;padding:12px;margin:0 auto 12px;max-width:240px;text-align:left;font-size:14px}
-.pvcard.bulat{border-radius:16px}
-.pvcard.kotak{border-radius:3px}
-.pvcard.polaroid{border-radius:3px;transform:rotate(-1.5deg);box-shadow:0 6px 16px rgba(0,0,0,.18)}
-.pvstars{color:#F5A524;letter-spacing:2px}
-.pvname{font-weight:700;margin-top:6px;font-size:13px}
-.pvbtn{display:inline-block;padding:8px 18px;border-radius:99px;font-weight:600;font-size:13px}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;max-width:90vw}
 </style>
 </head>
@@ -66,8 +52,8 @@ textarea{min-height:90px;resize:vertical}
 
 <section id="sLogin" class="center" hidden>
   <div class="panel">
-    <h1>Dashboard Owner</h1>
-    <p class="muted">Masuk dengan akun Google yang sudah didaftarkan oleh admin.</p>
+    <h1>Panel Creator</h1>
+    <p class="muted">Khusus pembuat sistem. Masuk dengan akun Google creator.</p>
     <button id="bLogin" class="btn">Masuk dengan Google</button>
   </div>
 </section>
@@ -82,134 +68,55 @@ textarea{min-height:90px;resize:vertical}
 
 <main id="sApp" hidden>
   <header class="top">
-    <div><b id="brand"></b><div id="who" class="muted small"></div></div>
-    <div class="row">
-      <a href="index.html" target="_blank" class="btn ghost sm">Lihat website</a>
-      <button id="bOut2" class="btn ghost sm">Keluar</button>
-    </div>
+    <div><b>Panel Creator</b><div id="who" class="muted small"></div></div>
+    <button id="bOut2" class="btn ghost sm">Keluar</button>
   </header>
   <div class="wrap">
-    <div class="quota">
-      <div class="qrow"><span>Penyimpanan foto</span><span id="qtxt"></span></div>
-      <div class="bar"><i id="qbar"></i></div>
+    <div class="stats">
+      <div class="stat"><b id="stOwner">0</b><span class="muted small">Owner</span></div>
+      <div class="stat"><b id="stAktif">0</b><span class="muted small">Aktif</span></div>
+      <div class="stat"><b id="stMb">0</b><span class="muted small">MB terpakai</span></div>
     </div>
-    <div class="bar2">
-      <h2>Testimoni <span id="cnt" class="muted"></span></h2>
-      <div class="row">
-        <button id="bExp" class="btn ghost sm">Export CSV</button>
-        <button id="bSet" class="btn ghost sm">Pengaturan</button>
-        <button id="bAdd" class="btn sm">+ Tambah</button>
-      </div>
+    <div class="tools">
+      <button id="bAdd" class="btn sm">+ Tambah owner</button>
+      <button id="bExpOwner" class="btn ghost sm">Export owner (CSV)</button>
+      <button id="bExpTesti" class="btn ghost sm">Export testimoni (CSV)</button>
     </div>
     <div id="rows"></div>
-    <p id="empty" class="muted" style="text-align:center;padding:30px 0" hidden>Belum ada testimoni. Ketuk Tambah untuk mulai.</p>
+    <p id="empty" class="muted" style="text-align:center;padding:30px 0" hidden>Belum ada owner.</p>
   </div>
 </main>
 
-<!-- FORM TESTIMONI (tambah / edit) -->
-<div id="modal" class="modal" hidden>
-  <form id="form" autocomplete="off">
-    <h2 id="fTitle">Tambah Testimoni</h2>
-    <label for="fNama">Nama customer *</label>
-    <input id="fNama" maxlength="60" required>
-    <div class="two">
-      <div><label for="fLabel">Label (opsional)</label><input id="fLabel" maxlength="40" placeholder="Beli akun ML"></div>
-      <div><label for="fRating">Rating</label>
-        <select id="fRating"><option value="5">5 bintang</option><option value="4">4 bintang</option><option value="3">3 bintang</option><option value="2">2 bintang</option><option value="1">1 bintang</option></select></div>
-    </div>
-    <label for="fTeks">Teks testimoni</label>
-    <textarea id="fTeks" maxlength="600"></textarea>
-    <label for="fTgl">Tanggal</label>
-    <input id="fTgl" type="date">
-    <label for="fMedia">Media</label>
-    <select id="fMedia"></select>
-    <div id="boxFoto" hidden>
-      <label for="fFile">Pilih foto (otomatis dikecilkan dan diubah ke WebP)</label>
-      <input id="fFile" type="file" accept="image/*">
-    </div>
-    <div id="boxVideo" hidden>
-      <label for="fVideo">Link video (YouTube, Google Drive, atau .mp4)</label>
-      <input id="fVideo" type="url" placeholder="https://youtu.be/...">
-      <button type="button" id="bTest" class="btn ghost sm" style="margin-top:8px">Tes link</button>
-      <div id="vstat" class="vstat muted"></div>
-    </div>
+<div id="modalAdd" class="modal" hidden>
+  <form id="formAdd" class="box" autocomplete="off">
+    <h2>Tambah Owner</h2>
+    <label for="aNama">Nama toko *</label>
+    <input id="aNama" maxlength="60" required>
+    <label for="aEmail">Email Google owner *</label>
+    <input id="aEmail" type="email" placeholder="owner@gmail.com" required>
     <div class="btns">
-      <button type="button" id="bCancel" class="btn ghost">Batal</button>
-      <button type="submit" id="bSave" class="btn">Simpan</button>
+      <button type="button" id="aCancel" class="btn ghost">Batal</button>
+      <button type="submit" id="aSave" class="btn">Simpan</button>
     </div>
   </form>
 </div>
 
-<!-- FORM PENGATURAN WEBSITE -->
-<div id="modalSet" class="modal" hidden>
-  <form id="formSet" autocomplete="off">
-    <h2>Pengaturan Website</h2>
-
-    <h3>Identitas</h3>
-    <label for="sBrand">Nama brand</label>
-    <input id="sBrand" maxlength="60">
-    <label for="sJudul">Judul halaman</label>
-    <input id="sJudul" maxlength="80" placeholder="Testimoni Toko Saya">
-    <label for="sDesk">Deskripsi singkat</label>
-    <textarea id="sDesk" maxlength="240" style="min-height:70px"></textarea>
-    <label for="sWa">Nomor WhatsApp</label>
-    <input id="sWa" inputmode="tel" placeholder="08123456789 atau 628123456789">
-    <label for="sLogo">Logo (opsional)</label>
-    <img id="sLogoPrev" class="logoprev" alt="" hidden>
-    <input id="sLogo" type="file" accept="image/*">
-    <button type="button" id="bLogoDel" class="btn danger sm" style="margin-top:8px" hidden>Hapus logo</button>
-
-    <h3>Tampilan</h3>
-    <div class="two">
-      <div><label for="sTema">Tema</label>
-        <select id="sTema">
-          <option value="wall">Wall of Love (krem hangat)</option>
-          <option value="fresh">Clean Fresh (mint)</option>
-          <option value="pop">Bold Pop (kuning, tegas)</option>
-          <option value="ocean">Ocean (biru)</option>
-          <option value="noir">Noir (hitam putih)</option>
-        </select></div>
-      <div><label for="sMode">Mode</label>
-        <select id="sMode"><option value="terang">Terang</option><option value="gelap">Gelap</option></select></div>
-    </div>
-    <div class="two">
-      <div><label for="sWarna">Warna utama</label><input id="sWarna" type="color" value="#E8590C"></div>
-      <div><label for="sFont">Font</label>
-        <select id="sFont">
-          <option value="poppins">Poppins</option>
-          <option value="inter">Inter</option>
-          <option value="nunito">Nunito</option>
-          <option value="playfair">Playfair Display</option>
-          <option value="space">Space Grotesk</option>
-        </select></div>
-    </div>
-    <div class="two">
-      <div><label for="sSusun">Susunan</label>
-        <select id="sSusun"><option value="grid">Grid</option><option value="masonry">Masonry</option><option value="slider">Slider</option></select></div>
-      <div><label for="sKartu">Gaya kartu</label>
-        <select id="sKartu"><option value="bulat">Bulat</option><option value="kotak">Kotak</option><option value="polaroid">Polaroid</option></select></div>
-    </div>
-
-    <div id="pv" class="pv">
-      <div id="pvCard" class="pvcard bulat">
-        <div class="pvstars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <div>Prosesnya cepat, recommended!</div>
-        <div class="pvname">Budi</div>
-      </div>
-      <span id="pvBtn" class="pvbtn">Chat WhatsApp</span>
-    </div>
-    <p class="muted small" style="margin-top:6px">Pratinjau kecil. Susunan (grid/masonry/slider) terlihat di website.</p>
-
+<div id="modalCfg" class="modal" hidden>
+  <div class="box">
+    <h2 id="cfgTitle">config.js</h2>
+    <p class="muted small" id="cfgHint">Tempel isi ini ke file <b>config.js</b> di repo website owner, lalu Commit.</p>
+    <label for="cfgText">Isi config.js</label>
+    <textarea id="cfgText" readonly></textarea>
     <div class="btns">
-      <button type="button" id="sCancel" class="btn ghost">Batal</button>
-      <button type="submit" id="sSave" class="btn">Simpan</button>
+      <button id="cfgClose" class="btn ghost">Tutup</button>
+      <button id="cfgCopy" class="btn">Salin</button>
     </div>
-  </form>
+  </div>
 </div>
 <div id="toast" class="toast" hidden></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
-<script src="admin.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

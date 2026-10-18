@@ -18,7 +18,7 @@ body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-syste
 .btn.ghost{background:transparent;color:var(--text);border-color:var(--line);margin-top:0}
 .btn.danger{background:transparent;color:var(--danger);border-color:#F1C8C8;margin-top:0}
 .btn.sm{padding:7px 12px;font-size:13px;border-radius:10px}
-.btn:disabled{opacity:.6}
+.btn:disabled{opacity:.45}
 .top{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px;position:sticky;top:0;z-index:5}
 .row{display:flex;gap:8px;align-items:center}
 .wrap{max-width:760px;margin:0 auto;padding:16px}
@@ -26,7 +26,7 @@ body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-syste
 .qrow{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
 .bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden}
 .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
-.bar2{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.bar2{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .bar2 h2{font-size:18px}
 .bar2 .btn{margin-top:0}
 .item{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
@@ -39,14 +39,25 @@ body{background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-syste
 .acts{display:flex;gap:6px;flex-wrap:wrap}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:end center;z-index:30}
 .modal form{background:var(--card);width:100%;max-width:520px;max-height:94vh;overflow:auto;border-radius:20px 20px 0 0;padding:20px 18px 24px}
-.modal h2{font-size:18px;margin-bottom:12px}
+.modal h2{font-size:18px;margin-bottom:4px}
+.modal h3{font-size:13px;margin:18px 0 0;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
 label{display:block;font-weight:600;font-size:13px;margin:12px 0 4px}
 input,select,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff;color:var(--text)}
+input[type=color]{height:44px;padding:4px}
 textarea{min-height:90px;resize:vertical}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btns{display:flex;gap:10px;margin-top:18px}
 .btns .btn{margin-top:0;flex:1}
 .vstat{font-size:13px;margin-top:6px}
+.logoprev{width:64px;height:64px;border-radius:50%;object-fit:cover;margin:8px 0 4px;display:block;border:1px solid var(--line)}
+.pv{margin-top:14px;padding:16px;border-radius:14px;border:1px solid var(--line);text-align:center;transition:background .2s}
+.pvcard{border:1px solid;padding:12px;margin:0 auto 12px;max-width:240px;text-align:left;font-size:14px}
+.pvcard.bulat{border-radius:16px}
+.pvcard.kotak{border-radius:3px}
+.pvcard.polaroid{border-radius:3px;transform:rotate(-1.5deg);box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.pvstars{color:#F5A524;letter-spacing:2px}
+.pvname{font-weight:700;margin-top:6px;font-size:13px}
+.pvbtn{display:inline-block;padding:8px 18px;border-radius:99px;font-weight:600;font-size:13px}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:60;max-width:90vw}
 </style>
 </head>
@@ -82,15 +93,23 @@ textarea{min-height:90px;resize:vertical}
       <div class="qrow"><span>Penyimpanan foto</span><span id="qtxt"></span></div>
       <div class="bar"><i id="qbar"></i></div>
     </div>
-    <div class="bar2"><h2>Testimoni <span id="cnt" class="muted"></span></h2><button id="bAdd" class="btn sm">+ Tambah</button></div>
+    <div class="bar2">
+      <h2>Testimoni <span id="cnt" class="muted"></span></h2>
+      <div class="row">
+        <button id="bExp" class="btn ghost sm">Export CSV</button>
+        <button id="bSet" class="btn ghost sm">Pengaturan</button>
+        <button id="bAdd" class="btn sm">+ Tambah</button>
+      </div>
+    </div>
     <div id="rows"></div>
     <p id="empty" class="muted" style="text-align:center;padding:30px 0" hidden>Belum ada testimoni. Ketuk Tambah untuk mulai.</p>
   </div>
 </main>
 
+<!-- FORM TESTIMONI (tambah / edit) -->
 <div id="modal" class="modal" hidden>
   <form id="form" autocomplete="off">
-    <h2>Tambah Testimoni</h2>
+    <h2 id="fTitle">Tambah Testimoni</h2>
     <label for="fNama">Nama customer *</label>
     <input id="fNama" maxlength="60" required>
     <div class="two">
@@ -103,7 +122,7 @@ textarea{min-height:90px;resize:vertical}
     <label for="fTgl">Tanggal</label>
     <input id="fTgl" type="date">
     <label for="fMedia">Media</label>
-    <select id="fMedia"><option value="none">Tanpa media</option><option value="foto">Foto</option><option value="video">Video (link)</option></select>
+    <select id="fMedia"></select>
     <div id="boxFoto" hidden>
       <label for="fFile">Pilih foto (otomatis dikecilkan dan diubah ke WebP)</label>
       <input id="fFile" type="file" accept="image/*">
@@ -117,6 +136,73 @@ textarea{min-height:90px;resize:vertical}
     <div class="btns">
       <button type="button" id="bCancel" class="btn ghost">Batal</button>
       <button type="submit" id="bSave" class="btn">Simpan</button>
+    </div>
+  </form>
+</div>
+
+<!-- FORM PENGATURAN WEBSITE -->
+<div id="modalSet" class="modal" hidden>
+  <form id="formSet" autocomplete="off">
+    <h2>Pengaturan Website</h2>
+
+    <h3>Identitas</h3>
+    <label for="sBrand">Nama brand</label>
+    <input id="sBrand" maxlength="60">
+    <label for="sJudul">Judul halaman</label>
+    <input id="sJudul" maxlength="80" placeholder="Testimoni Toko Saya">
+    <label for="sDesk">Deskripsi singkat</label>
+    <textarea id="sDesk" maxlength="240" style="min-height:70px"></textarea>
+    <label for="sWa">Nomor WhatsApp</label>
+    <input id="sWa" inputmode="tel" placeholder="08123456789 atau 628123456789">
+    <label for="sLogo">Logo (opsional)</label>
+    <img id="sLogoPrev" class="logoprev" alt="" hidden>
+    <input id="sLogo" type="file" accept="image/*">
+    <button type="button" id="bLogoDel" class="btn danger sm" style="margin-top:8px" hidden>Hapus logo</button>
+
+    <h3>Tampilan</h3>
+    <div class="two">
+      <div><label for="sTema">Tema</label>
+        <select id="sTema">
+          <option value="wall">Wall of Love (krem hangat)</option>
+          <option value="fresh">Clean Fresh (mint)</option>
+          <option value="pop">Bold Pop (kuning, tegas)</option>
+          <option value="ocean">Ocean (biru)</option>
+          <option value="noir">Noir (hitam putih)</option>
+        </select></div>
+      <div><label for="sMode">Mode</label>
+        <select id="sMode"><option value="terang">Terang</option><option value="gelap">Gelap</option></select></div>
+    </div>
+    <div class="two">
+      <div><label for="sWarna">Warna utama</label><input id="sWarna" type="color" value="#E8590C"></div>
+      <div><label for="sFont">Font</label>
+        <select id="sFont">
+          <option value="poppins">Poppins</option>
+          <option value="inter">Inter</option>
+          <option value="nunito">Nunito</option>
+          <option value="playfair">Playfair Display</option>
+          <option value="space">Space Grotesk</option>
+        </select></div>
+    </div>
+    <div class="two">
+      <div><label for="sSusun">Susunan</label>
+        <select id="sSusun"><option value="grid">Grid</option><option value="masonry">Masonry</option><option value="slider">Slider</option></select></div>
+      <div><label for="sKartu">Gaya kartu</label>
+        <select id="sKartu"><option value="bulat">Bulat</option><option value="kotak">Kotak</option><option value="polaroid">Polaroid</option></select></div>
+    </div>
+
+    <div id="pv" class="pv">
+      <div id="pvCard" class="pvcard bulat">
+        <div class="pvstars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div>Prosesnya cepat, recommended!</div>
+        <div class="pvname">Budi</div>
+      </div>
+      <span id="pvBtn" class="pvbtn">Chat WhatsApp</span>
+    </div>
+    <p class="muted small" style="margin-top:6px">Pratinjau kecil. Susunan (grid/masonry/slider) terlihat di website.</p>
+
+    <div class="btns">
+      <button type="button" id="sCancel" class="btn ghost">Batal</button>
+      <button type="submit" id="sSave" class="btn">Simpan</button>
     </div>
   </form>
 </div>
